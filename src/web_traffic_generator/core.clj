@@ -30,7 +30,8 @@
 
 (defn append-to-backlog!
   [page-links]
-  (swap! links assoc :back-log (s/union (:back-log @links) page-links)))
+  (swap! links assoc :back-log
+                     (s/union (:back-log @links) page-links)))
 
 
 (defn filter-links
@@ -50,8 +51,8 @@
         page-links (get-page-links dom)
         back-log (append-to-backlog! page-links)
         f-links (filter-links)]
-    (prn ">>>>>>>> X debug")
-    (prn f-links)
+    ;; (prn ">>>>>>>> X debug")
+    ;; (prn f-links)
     (rand-nth f-links)))
 
 
@@ -76,4 +77,4 @@
     (recur)))
 
 
-;; (-main "https://dev.to/")
+;; (-main "https://news.ycombinator.com")
