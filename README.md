@@ -1,16 +1,18 @@
 # web-traffic-generator
 
-## Usage
+### Usage
 
 ```sh
 $ lein run https://news.ycombinator.com
 ```
 
-### not yet
+### Building
 
 FIXME: explanation
-
-    $ java -jar web-traffic-generator-0.1.0-standalone.jar [args] (not yet)
+```sh
+    $ lein uberjar
+    $ java -jar web-traffic-generator-0.1.0-standalone.jar https://yourlink.com
+```
 
 ## License
 

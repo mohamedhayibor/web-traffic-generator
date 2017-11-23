@@ -32,6 +32,7 @@
   [page-links]
   (swap! links assoc :back-log (s/union (:back-log @links) page-links)))
 
+
 (defn filter-links
   "filter out walked and blocked links"
   []
@@ -40,6 +41,7 @@
         back-log (:back-log @links)
         links-diff (s/difference back-log walked-set blocked-list)]
     (into [] links-diff)))
+
 
 (defn web-traffic-generator
   "Kicks the web traffic generator when provided with a valid link"
@@ -57,7 +59,8 @@
   "Logs the current link, then puts into walked"
   [current-link]
   (println "Current link: " (:current-link @links))
-  (swap! links assoc :walked (conj (:walked @links) current-link)))
+  (swap! links assoc :walked
+                     (conj (:walked @links) current-link)))
 
 
 (defn -main
@@ -68,7 +71,9 @@
   (loop []
     (time-stamp! (:current-link @links))
     (Thread/sleep (* (rand-int 16) 1000))
-    (swap! links assoc :current-link (web-traffic-generator (:current-link @links)))
+    (swap! links assoc :current-link
+                       (web-traffic-generator (:current-link @links)))
     (recur)))
+
 
 ;; (-main "https://dev.to/")
