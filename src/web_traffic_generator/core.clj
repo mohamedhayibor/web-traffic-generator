@@ -4,14 +4,13 @@
 
 ;;  -- Simple web traffic generator
 ;;  -- Mimicks a user browsing the internet randomly
-;;  -- 1. randomly clicks a page
-;;  -- 2. randomly "backspace" rage back to start url (needs debugging)
-;;  --> The program crashes when it hits a 4** status code
 
 (def links (atom {:current-link ""
                   :back-log #{}
                   :walked #{}
-                  :block-list #{"facebook.com" "https://facebook.com"}}))
+                  :block-list #{"facebook.com"
+                                "https://facebook.com"
+                                "https://static.xx.fbcdn.net/"}}))
 
 
 (defn get-dom-page
@@ -31,8 +30,7 @@
 
 (defn append-to-backlog!
   [page-links]
-  (swap! links assoc :back-log page-links))
-
+  (swap! links assoc :back-log (s/union (:back-log @links) page-links)))
 
 (defn filter-links
   "filter out walked and blocked links"
@@ -42,7 +40,6 @@
         back-log (:back-log @links)
         links-diff (s/difference back-log walked-set blocked-list)]
     (into [] links-diff)))
-
 
 (defn web-traffic-generator
   "Kicks the web traffic generator when provided with a valid link"
