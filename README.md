@@ -6,14 +6,11 @@
 $ lein run https://news.ycombinator.com
 ```
 
+### not yet
+
 FIXME: explanation
 
     $ java -jar web-traffic-generator-0.1.0-standalone.jar [args] (not yet)
-
-### Bugs
-
-* "main" java.io.IOException: Server returned HTTP response code: 403
-* java.lang.IndexOutOfBoundsException
 
 ## License
 

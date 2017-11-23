@@ -67,9 +67,8 @@
   (swap! links assoc :current-link link)
   (loop []
     (time-stamp! (:current-link @links))
-    (Thread/sleep (* (rand-int 6) 1000))
+    (Thread/sleep (* (rand-int 16) 1000))
     (swap! links assoc :current-link (web-traffic-generator (:current-link @links)))
     (recur)))
 
-
-;; (-main "https://news.ycombinator.com")
+;; (-main "https://dev.to/")
