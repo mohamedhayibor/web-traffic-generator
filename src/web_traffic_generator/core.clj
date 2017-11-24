@@ -4,6 +4,9 @@
 
 ;;  -- Simple web traffic generator
 ;;  -- Mimicks a user browsing the internet randomly
+;;
+;;  -- Sets are heavily used as data structures as
+;;  -- we don't care too much of order in any kind
 
 (def links (atom {:current-link ""
                   :back-log #{}
@@ -14,13 +17,13 @@
 
 
 (defn get-dom-page
-  "Makes an http request -> html dom"
+  "Gets html from url as one string"
   [url-link]
   (:body (client/get url-link)))
 
 
 (defn get-page-links
-  "Gets all links from the requested page"
+  "Gets all links from page then puts them in a set"
   [dom-page]
   (let [reg #"(?:href\=\")(https?:\/\/[^\"]+)(?:\")"
         re-seq-ed (re-seq reg dom-page)
@@ -29,13 +32,14 @@
 
 
 (defn append-to-backlog!
+  "Inserts all new links into backlog"
   [page-links]
   (swap! links assoc :back-log
                      (s/union (:back-log @links) page-links)))
 
 
 (defn filter-links
-  "filter out walked and blocked links"
+  "Filter out walked and blocked links"
   []
   (let [walked-set (:walked @links)
         blocked-list (:block-list @links)
@@ -45,7 +49,7 @@
 
 
 (defn web-traffic-generator
-  "Kicks the web traffic generator when provided with a valid link"
+  "Perform the main operations when provided with a valid link"
   [url]
   (let [dom (get-dom-page url)
         page-links (get-page-links dom)
